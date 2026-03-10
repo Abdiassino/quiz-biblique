@@ -1,488 +1,130 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Biblique Pro - Administration</title>
+    <title>Jeu Biblique - Admin</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #1a1a2e;
-            color: #fff;
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            background: #16213e;
-            padding: 20px;
-            border-right: 1px solid #0f3460;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #e94560;
-            margin-bottom: 30px;
-            padding: 10px;
-            text-align: center;
-            border-bottom: 2px solid #e94560;
-        }
-
-        .nav-item {
-            padding: 15px;
-            margin: 5px 0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background: #0f3460;
-            color: #e94560;
-        }
-
-        .main-content {
-            padding: 30px;
-            background: #1a1a2e;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #16213e;
-            border-radius: 15px;
-        }
-
-        .game-status {
-            background: #e94560;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: #16213e;
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 4px solid #e94560;
-        }
-
-        .stat-value {
-            font-size: 36px;
-            font-weight: bold;
-            color: #e94560;
-        }
-
-        .stat-label {
-            color: #888;
-            margin-top: 5px;
-        }
-
-        .table-container {
-            background: #16213e;
-            border-radius: 15px;
-            padding: 20px;
-            overflow-x: auto;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            text-align: left;
-            padding: 15px;
-            color: #e94560;
-            border-bottom: 2px solid #0f3460;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #0f3460;
-        }
-
-        tr:hover {
-            background: #0f3460;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #e94560;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            background: #0f3460;
-            border: 1px solid #e94560;
-            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            background: #333;
             color: white;
-            font-size: 16px;
+            padding: 20px;
         }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #fff;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 5px;
-        }
-
-        .btn-primary {
-            background: #e94560;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #ff6b7c;
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-warning {
-            background: #ffc107;
-            color: black;
-        }
-
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            background: #16213e;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .tab.active {
-            background: #e94560;
-        }
-
         .section {
-            display: none;
+            background: #444;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
         }
-
-        .section.active {
-            display: block;
+        input, button, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
         }
-
-        .questions-tab {
-            display: none;
+        button {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
         }
-
-        .questions-tab.active {
-            display: block;
+        button:hover {
+            opacity: 0.8;
         }
-
-        .question-card {
-            background: #0f3460;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border-left: 4px solid #e94560;
+        .question-item {
+            background: #555;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
         }
-
-        @media (max-width: 768px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-            
-            .sidebar {
-                display: none;
-            }
-        }
+        .btn-start { background: #4CAF50; }
+        .btn-next { background: #FF9800; }
+        .btn-end { background: #f44336; }
+        h2 { color: #FFD700; }
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="logo">📖 Quiz Biblique Pro</div>
-            <div class="nav-item active" onclick="showSection('dashboard')">
-                📊 Dashboard
-            </div>
-            <div class="nav-item" onclick="showSection('questions')">
-                ❓ Questions
-            </div>
-            <div class="nav-item" onclick="showSection('partie')">
-                🎮 Partie en cours
-            </div>
-            <div class="nav-item" onclick="showSection('parametres')">
-                ⚙️ Paramètres
+    <div class="container">
+        <h1>🎮 Administration du Jeu</h1>
+        
+        <!-- Code de partie -->
+        <div class="section">
+            <h2>📌 Code de partie</h2>
+            <div style="background: #FFD700; color: black; padding: 20px; text-align: center; font-size: 32px; border-radius: 10px;">
+                BIBLE2024
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Header -->
-            <div class="header">
-                <h1 id="sectionTitle">Dashboard</h1>
-                <div>
-                    <span class="game-status" id="gameStatusDisplay">🔴 Partie arrêtée</span>
-                    <span style="margin-left: 20px;">Code: <strong>BIBLE2024</strong></span>
-                </div>
-            </div>
+        <!-- Ajouter une question -->
+        <div class="section">
+            <h2>➕ Ajouter une question</h2>
+            <input type="text" id="questionText" placeholder="Question">
+            <input type="text" id="option1" placeholder="Option 1">
+            <input type="text" id="option2" placeholder="Option 2">
+            <input type="text" id="option3" placeholder="Option 3">
+            <input type="text" id="option4" placeholder="Option 4">
+            <select id="correctAnswer">
+                <option value="1">Option 1 est correcte</option>
+                <option value="2">Option 2 est correcte</option>
+                <option value="3">Option 3 est correcte</option>
+                <option value="4">Option 4 est correcte</option>
+            </select>
+            <button onclick="addQuestion()">AJOUTER LA QUESTION</button>
+        </div>
 
-            <!-- Section Dashboard -->
-            <div id="dashboardSection" class="section active">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalPlayers">0</div>
-                        <div class="stat-label">Joueurs connectés</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalQuestions">0</div>
-                        <div class="stat-label">Questions totales</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="avgScore">0</div>
-                        <div class="stat-label">Score moyen</div>
-                    </div>
-                </div>
+        <!-- Liste des questions -->
+        <div class="section">
+            <h2>📋 Questions</h2>
+            <div id="questionsList"></div>
+        </div>
 
-                <div class="table-container">
-                    <h2 style="margin-bottom: 20px;">🏆 Classement</h2>
-                    <table id="liveRanking">
-                        <thead>
-                            <tr>
-                                <th>Position</th>
-                                <th>Joueur</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody id="rankingBody">
-                            <tr>
-                                <td colspan="3" style="text-align: center;">En attente de joueurs...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <!-- Contrôles du jeu -->
+        <div class="section">
+            <h2>🎮 Contrôles</h2>
+            <button class="btn-start" onclick="startGame()">▶ DÉMARRER LA PARTIE</button>
+            <button class="btn-next" onclick="nextQuestion()">⏭ QUESTION SUIVANTE</button>
+            <button class="btn-end" onclick="endGame()">■ TERMINER</button>
+        </div>
 
-            <!-- Section Questions -->
-            <div id="questionsSection" class="section">
-                <div class="tabs">
-                    <div class="tab active" onclick="showQuestionsTab('liste')">📋 Liste des questions</div>
-                    <div class="tab" onclick="showQuestionsTab('ajouter')">➕ Ajouter une question</div>
-                </div>
+        <!-- Scores -->
+        <div class="section">
+            <h2>🏆 Scores</h2>
+            <div id="scoresList"></div>
+        </div>
 
-                <div id="listeQuestions" class="questions-tab active">
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Question</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="questionsTable">
-                                <!-- Les questions apparaîtront ici -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div id="ajouterQuestion" class="questions-tab">
-                    <div class="form-group">
-                        <label>Question</label>
-                        <textarea id="questionText" rows="3" placeholder="Tapez votre question..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Option 1</label>
-                        <input type="text" id="option1" placeholder="Option A">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Option 2</label>
-                        <input type="text" id="option2" placeholder="Option B">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Option 3</label>
-                        <input type="text" id="option3" placeholder="Option C">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Option 4</label>
-                        <input type="text" id="option4" placeholder="Option D">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Bonne réponse (1-4)</label>
-                        <input type="number" id="correctAnswer" min="1" max="4" value="1">
-                    </div>
-
-                    <button class="btn btn-primary" onclick="addQuestion()">➕ Ajouter la question</button>
-                </div>
-            </div>
-
-            <!-- Section Partie -->
-            <div id="partieSection" class="section">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="playersInGame">0</div>
-                        <div class="stat-label">Joueurs en jeu</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="currentQ">0/0</div>
-                        <div class="stat-label">Question en cours</div>
-                    </div>
-                </div>
-
-                <div class="table-container">
-                    <h3>🎮 Contrôles</h3>
-                    <button class="btn btn-success" onclick="startGame()">▶ Démarrer la partie</button>
-                    <button class="btn btn-warning" onclick="nextQuestion()">⏭ Question suivante</button>
-                    <button class="btn btn-danger" onclick="endGame()">■ Terminer</button>
-                    <button class="btn btn-primary" onclick="resetGame()">🔄 Réinitialiser</button>
-                </div>
-
-                <div class="table-container">
-                    <h3>📊 Réponses en direct</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Joueur</th>
-                                <th>Réponse</th>
-                                <th>Points</th>
-                            </tr>
-                        </thead>
-                        <tbody id="liveResponses">
-                            <tr>
-                                <td colspan="3" style="text-align: center;">En attente des réponses...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Section Paramètres -->
-            <div id="parametresSection" class="section">
-                <div class="table-container">
-                    <h3>⚙️ Paramètres du jeu</h3>
-                    
-                    <div class="form-group">
-                        <label>Code de la partie</label>
-                        <input type="text" id="gameCodeConfig" value="BIBLE2024">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Temps par question (secondes)</label>
-                        <input type="number" id="timeLimit" value="30" min="5" max="120">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Points par bonne réponse</label>
-                        <input type="number" id="pointsPerQuestion" value="10" min="1" max="100">
-                    </div>
-
-                    <button class="btn btn-primary" onclick="saveSettings()">💾 Sauvegarder</button>
-                    <button class="btn btn-danger" onclick="resetAllData()">⚠️ Tout réinitialiser</button>
-                </div>
-            </div>
+        <!-- Réinitialiser -->
+        <div class="section">
+            <h2>⚠️ Danger Zone</h2>
+            <button onclick="resetAll()" style="background: #f44336;">TOUT RÉINITIALISER</button>
         </div>
     </div>
 
     <script>
         // ============================================
-        // VARIABLES GLOBALES
+        // CODE SIMPLE QUI MARCHE À 100%
         // ============================================
-        let questions = JSON.parse(localStorage.getItem('quiz_questions')) || [];
+
+        let questions = [];
         let currentQuestionIndex = -1;
-        let gameActive = false;
 
-        // ============================================
-        // NAVIGATION
-        // ============================================
-        function showSection(section) {
-            // Cacher toutes les sections
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById(section + 'Section').classList.add('active');
-            
-            // Mettre à jour la navigation
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            
-            // Mettre à jour le titre
-            document.getElementById('sectionTitle').textContent = 
-                event.currentTarget.textContent.replace(/[📊❓🎮⚙️]/g, '').trim();
-            
-            // Rafraîchir les listes si nécessaire
-            if (section === 'questions') {
-                displayQuestionsList();
+        // Charger les questions au démarrage
+        function loadQuestions() {
+            let saved = localStorage.getItem('questions');
+            if (saved) {
+                questions = JSON.parse(saved);
             }
+            displayQuestions();
         }
 
-        // ============================================
-        // GESTION DES ONGLETS QUESTIONS
-        // ============================================
-        function showQuestionsTab(tab) {
-            document.querySelectorAll('.questions-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(tab + 'Questions').classList.add('active');
-            
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-        }
-
-        // ============================================
-        // GESTION DES QUESTIONS
-        // ============================================
+        // Ajouter une question
         function addQuestion() {
-            const question = {
+            let question = {
                 id: Date.now(),
                 text: document.getElementById('questionText').value,
                 options: [
@@ -494,93 +136,160 @@
                 correct: parseInt(document.getElementById('correctAnswer').value)
             };
 
-            if (question.text && question.options.every(o => o)) {
-                questions.push(question);
-                localStorage.setItem('quiz_questions', JSON.stringify(questions));
-                
-                // Vider le formulaire
-                document.getElementById('questionText').value = '';
-                document.getElementById('option1').value = '';
-                document.getElementById('option2').value = '';
-                document.getElementById('option3').value = '';
-                document.getElementById('option4').value = '';
-                document.getElementById('correctAnswer').value = '1';
-                
-                displayQuestionsList();
-                updateStats();
-                
-                alert('✅ Question ajoutée avec succès !');
-                showQuestionsTab('liste');
-            } else {
-                alert('❌ Remplis tous les champs !');
-            }
-        }
-
-        function displayQuestionsList() {
-            const tbody = document.getElementById('questionsTable');
-            if (!tbody) return;
-
-            if (questions.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Aucune question. Ajoutez-en une !</td></tr>';
+            // Vérifier que tous les champs sont remplis
+            if (!question.text || !question.options[0] || !question.options[1] || 
+                !question.options[2] || !question.options[3]) {
+                alert('Remplis tous les champs !');
                 return;
             }
 
-            let html = '';
-            questions.forEach((q, index) => {
-                html += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${q.text.substring(0, 50)}${q.text.length > 50 ? '...' : ''}</td>
-                        <td>
-                            <button class="btn btn-primary btn-small" onclick="editQuestion(${q.id})" style="padding: 5px 10px;">✏️</button>
-                            <button class="btn btn-danger btn-small" onclick="deleteQuestion(${q.id})" style="padding: 5px 10px;">🗑️</button>
-                        </td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
+            questions.push(question);
+            localStorage.setItem('questions', JSON.stringify(questions));
+            
+            // Vider le formulaire
+            document.getElementById('questionText').value = '';
+            document.getElementById('option1').value = '';
+            document.getElementById('option2').value = '';
+            document.getElementById('option3').value = '';
+            document.getElementById('option4').value = '';
+            document.getElementById('correctAnswer').value = '1';
+            
+            displayQuestions();
+            alert('Question ajoutée !');
         }
 
+        // Afficher les questions
+        function displayQuestions() {
+            let html = '';
+            for (let i = 0; i < questions.length; i++) {
+                html += '<div class="question-item">';
+                html += '<strong>' + (i+1) + '. ' + questions[i].text + '</strong><br>';
+                html += '<small>1. ' + questions[i].options[0] + ' | ';
+                html += '2. ' + questions[i].options[1] + ' | ';
+                html += '3. ' + questions[i].options[2] + ' | ';
+                html += '4. ' + questions[i].options[3] + '</small><br>';
+                html += '<small>✅ Bonne réponse: ' + questions[i].correct + '</small><br>';
+                html += '<button onclick="deleteQuestion(' + questions[i].id + ')" style="background: #f44336; width: auto;">Supprimer</button>';
+                html += '</div>';
+            }
+            if (questions.length === 0) {
+                html = '<p>Aucune question pour le moment.</p>';
+            }
+            document.getElementById('questionsList').innerHTML = html;
+        }
+
+        // Supprimer une question
         function deleteQuestion(id) {
             if (confirm('Supprimer cette question ?')) {
-                questions = questions.filter(q => q.id !== id);
-                localStorage.setItem('quiz_questions', JSON.stringify(questions));
-                displayQuestionsList();
-                updateStats();
+                let newQuestions = [];
+                for (let i = 0; i < questions.length; i++) {
+                    if (questions[i].id !== id) {
+                        newQuestions.push(questions[i]);
+                    }
+                }
+                questions = newQuestions;
+                localStorage.setItem('questions', JSON.stringify(questions));
+                displayQuestions();
             }
         }
 
-        function editQuestion(id) {
-            const question = questions.find(q => q.id === id);
-            if (question) {
-                // Remplir le formulaire
-                document.getElementById('questionText').value = question.text;
-                document.getElementById('option1').value = question.options[0];
-                document.getElementById('option2').value = question.options[1];
-                document.getElementById('option3').value = question.options[2];
-                document.getElementById('option4').value = question.options[3];
-                document.getElementById('correctAnswer').value = question.correct;
-                
-                // Aller à l'onglet d'ajout
-                showQuestionsTab('ajouter');
-                
-                // Supprimer l'ancienne question
-                deleteQuestion(id);
-            }
-        }
-
-        // ============================================
-        // CONTRÔLES DU JEU
-        // ============================================
+        // Démarrer la partie
         function startGame() {
             if (questions.length === 0) {
                 alert('Ajoute des questions d\'abord !');
                 return;
             }
-            
-            gameActive = true;
             currentQuestionIndex = 0;
+            localStorage.setItem('gameState', JSON.stringify({
+                status: 'started'
+            }));
+            alert('Partie démarrée !');
+        }
+
+        // Question suivante
+        function nextQuestion() {
+            if (questions.length === 0) {
+                alert('Pas de questions !');
+                return;
+            }
             
-            // Mettre à jour l'affichage
-            document.getElementById('gameStatusDisplay').textContent = '🟢 Partie en cours';
-            document.getElementById('gameStatusDisplay').style.background
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+            } else {
+                // Retour au début ou fin
+                if (confirm('Dernière question ! Revenir au début ?')) {
+                    currentQuestionIndex = 0;
+                } else {
+                    return;
+                }
+            }
+            
+            // Envoyer la question
+            localStorage.setItem('gameState', JSON.stringify({
+                status: 'question',
+                question: questions[currentQuestionIndex]
+            }));
+            
+            alert('Question ' + (currentQuestionIndex + 1) + ' envoyée !');
+        }
+
+        // Terminer la partie
+        function endGame() {
+            localStorage.setItem('gameState', JSON.stringify({
+                status: 'ended'
+            }));
+            alert('Partie terminée !');
+        }
+
+        // Afficher les scores
+        function displayScores() {
+            let scores = JSON.parse(localStorage.getItem('scores')) || {};
+            let html = '<table style="width:100%; color:white;">';
+            
+            // Trier les scores
+            let sorted = [];
+            for (let name in scores) {
+                sorted.push({name: name, score: scores[name]});
+            }
+            
+            // Tri manuel
+            for (let i = 0; i < sorted.length; i++) {
+                for (let j = i+1; j < sorted.length; j++) {
+                    if (sorted[i].score < sorted[j].score) {
+                        let temp = sorted[i];
+                        sorted[i] = sorted[j];
+                        sorted[j] = temp;
+                    }
+                }
+            }
+            
+            for (let i = 0; i < sorted.length; i++) {
+                html += '<tr><td>' + (i+1) + '. ' + sorted[i].name + '</td><td>' + sorted[i].score + ' pts</td></tr>';
+            }
+            if (sorted.length === 0) {
+                html += '<tr><td colspan="2">Aucun score</td></tr>';
+            }
+            html += '</table>';
+            document.getElementById('scoresList').innerHTML = html;
+        }
+
+        // Tout réinitialiser
+        function resetAll() {
+            if (confirm('⚠️ Êtes-vous sûr de vouloir TOUT effacer ?')) {
+                localStorage.clear();
+                questions = [];
+                displayQuestions();
+                displayScores();
+                alert('Tout a été effacé !');
+            }
+        }
+
+        // Mise à jour automatique des scores
+        setInterval(displayScores, 2000);
+
+        // Chargement initial
+        loadQuestions();
+        displayScores();
+    </script>
+</body>
+</html>
