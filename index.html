@@ -1,642 +1,217 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Biblique Pro - Joueurs</title>
+    <title>Jeu Biblique - Joueur</title>
     <style>
-        /* Même CSS que tout à l'heure - je le garde */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #fff;
-        }
-
-        .game-container {
-            max-width: 1200px;
-            margin: 0 auto;
+            font-family: Arial, sans-serif;
+            background: #2196F3;
+            color: white;
             padding: 20px;
+            margin: 0;
         }
-
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
         .screen {
             display: none;
-            min-height: 100vh;
-            animation: fadeIn 0.5s ease;
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
         }
-
         .screen.active {
             display: block;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .game-header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .player-info {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 10px 20px;
-            border-radius: 50px;
-        }
-
-        .player-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        .player-avatar.selected {
-            border: 2px solid #ffd700;
-        }
-
-        .player-score {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffd700;
-        }
-
-        /* Écran de connexion */
-        .login-screen {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .login-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 40px;
-            width: 100%;
-            max-width: 450px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: slideUp 0.5s ease;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .login-title {
-            font-size: 32px;
-            margin-bottom: 30px;
-            text-align: center;
-            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .input-group input {
+        input, button {
             width: 100%;
             padding: 15px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            color: white;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #ffd700;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
             margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        button {
+            background: #4CAF50;
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            font-weight: bold;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-option {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: white;
+        .option-btn {
+            background: #f0f0f0;
+            color: black;
             text-align: left;
-            padding: 20px;
-            font-size: 18px;
-            transition: all 0.3s;
+            margin: 5px 0;
+            border: 1px solid #ddd;
         }
-
-        .btn-option:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            border-color: #ffd700;
+        .option-btn.correct {
+            background: #4CAF50;
+            color: white;
         }
-
-        .btn-option.correct {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            border-color: #fff;
-            animation: pulse 0.5s ease;
+        .option-btn.incorrect {
+            background: #f44336;
+            color: white;
         }
-
-        .btn-option.incorrect {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-            border-color: #fff;
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .avatar-selector {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .avatar-option {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .avatar-option:hover {
-            transform: scale(1.1);
-        }
-
-        .avatar-option.selected {
-            border: 2px solid #ffd700;
-            transform: scale(1.1);
-        }
-
-        .waiting-room {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .players-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .player-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .question-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 30px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .question-header {
+        .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .question-number {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 50px;
-            font-size: 14px;
-        }
-
-        .timer {
-            font-size: 48px;
-            font-weight: bold;
-            color: #ffd700;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .timer.warning {
-            color: #ff6b6b;
-            animation: warning 0.5s infinite;
-        }
-
-        @keyframes warning {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .question-text {
-            font-size: 24px;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .result-screen {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .result-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 40px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .result-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        .result-title {
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-
-        .points-earned {
-            font-size: 48px;
-            color: #ffd700;
-            margin: 20px 0;
-        }
-
-        .ranking-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 30px;
-        }
-
-        .ranking-item {
-            display: flex;
-            align-items: center;
+            background: white;
+            color: black;
             padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
         }
-
-        .ranking-position {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 215, 0, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-weight: bold;
-        }
-
-        .ranking-info {
-            flex: 1;
-        }
-
-        .ranking-name {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .ranking-score {
-            color: #ffd700;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s ease;
-        }
-
-        @media (max-width: 768px) {
-            .options-grid {
-                grid-template-columns: 1fr;
-            }
+        h1 {
+            text-align: center;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <div class="game-container">
+    <h1>📖 JEU BIBLIQUE</h1>
+    
+    <div class="container">
         <!-- Écran de connexion -->
         <div id="loginScreen" class="screen active">
-            <div class="login-screen">
-                <div class="login-card">
-                    <div class="login-title">📖 Quiz Biblique Pro</div>
-                    
-                    <div class="input-group">
-                        <label>👤 Ton pseudo</label>
-                        <input type="text" id="playerName" placeholder="Entre ton nom..." maxlength="20">
-                    </div>
-
-                    <div class="input-group">
-                        <label>🔑 Code de la partie</label>
-                        <input type="text" id="gameCode" value="BIBLE2024" placeholder="Code de la partie">
-                    </div>
-
-                    <div class="input-group">
-                        <label>🎨 Choisis ton avatar</label>
-                        <div class="avatar-selector" id="avatarSelector">
-                            <div class="avatar-option" onclick="selectAvatar('😇')">😇</div>
-                            <div class="avatar-option" onclick="selectAvatar('👼')">👼</div>
-                            <div class="avatar-option" onclick="selectAvatar('🕊️')">🕊️</div>
-                            <div class="avatar-option" onclick="selectAvatar('🙏')">🙏</div>
-                            <div class="avatar-option" onclick="selectAvatar('📖')">📖</div>
-                            <div class="avatar-option" onclick="selectAvatar('✝️')">✝️</div>
-                        </div>
-                    </div>
-
-                    <button class="btn btn-primary" onclick="joinGame()">
-                        🎮 Rejoindre la partie
-                    </button>
-
-                    <div style="text-align: center; margin-top: 20px; opacity: 0.7;">
-                        <span id="onlinePlayers">0</span> joueurs en ligne
-                    </div>
-                </div>
-            </div>
+            <h2>Connexion</h2>
+            <input type="text" id="playerName" placeholder="Ton nom">
+            <input type="text" id="gameCode" value="BIBLE2024">
+            <button onclick="joinGame()">Rejoindre la partie</button>
         </div>
 
         <!-- Écran d'attente -->
-        <div id="waitingScreen" class="screen">
-            <div class="game-header">
-                <div class="logo">
-                    <span>📖 Quiz Biblique</span>
-                </div>
-                <div class="player-info">
-                    <div class="player-avatar" id="headerAvatar">👤</div>
-                    <span id="headerName">Joueur</span>
-                    <div class="player-score" id="headerScore">0</div>
-                </div>
-            </div>
-
-            <div class="waiting-room">
-                <h1 style="margin-bottom: 20px;">⏳ En attente du début...</h1>
-                
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-
-                <div id="playersWaitingList" class="players-list">
-                    <!-- Les joueurs apparaîtront ici -->
-                </div>
-
-                <div style="margin-top: 30px;">
-                    <button class="btn btn-primary" style="width: auto; padding: 15px 40px;" onclick="toggleReady()">
-                        ✅ Prêt
-                    </button>
-                </div>
-            </div>
+        <div id="waitScreen" class="screen">
+            <h2>En attente...</h2>
+            <p>Joueur: <span id="displayName"></span></p>
+            <div id="playersList"></div>
         </div>
 
         <!-- Écran de jeu -->
         <div id="gameScreen" class="screen">
-            <div class="game-header">
-                <div class="logo">
-                    <span>📖 Question <span id="currentQuestionNumber">1</span>/<span id="totalQuestions">10</span></span>
-                </div>
-                <div class="player-info">
-                    <div class="player-avatar" id="gameAvatar">👤</div>
-                    <span id="gameName">Joueur</span>
-                    <div class="player-score" id="gameScore">0</div>
-                </div>
+            <div class="header">
+                <span>Joueur: <span id="gamePlayerName"></span></span>
+                <span>Score: <span id="score">0</span></span>
             </div>
-
-            <div class="question-container">
-                <div class="question-header">
-                    <span class="question-number" id="questionCategory">Ancien Testament</span>
-                    <span class="question-number" id="questionDifficulty">⭐ Facile</span>
-                </div>
-
-                <div id="timer" class="timer">30</div>
-
-                <div class="question-text" id="questionText">
-                    Chargement de la question...
-                </div>
-
-                <div class="options-grid" id="optionsContainer">
-                    <!-- Les options apparaîtront ici -->
-                </div>
-
-                <div style="margin-top: 20px; text-align: center; color: rgba(255,255,255,0.5);" id="bibleReference">
-                    Jean 3:16
-                </div>
-            </div>
-
-            <div class="ranking-container">
-                <h3 style="margin-bottom: 20px;">🏆 Classement en direct</h3>
-                <div id="liveRanking"></div>
-            </div>
+            
+            <h3 id="questionText">Chargement...</h3>
+            <div id="options"></div>
         </div>
 
         <!-- Écran résultat -->
         <div id="resultScreen" class="screen">
-            <div class="result-screen">
-                <div class="result-card">
-                    <div class="result-icon" id="resultIcon">✅</div>
-                    <div class="result-title" id="resultTitle">Bonne réponse !</div>
-                    <div class="points-earned" id="pointsEarned">+10</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressToNext" style="width: 0%;"></div>
-                    </div>
-                    <button class="btn btn-primary" onclick="continueToNext()" id="continueBtn">
-                        Continuer ⏭
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Écran de fin -->
-        <div id="endScreen" class="screen">
-            <div class="result-screen">
-                <div class="result-card">
-                    <div class="result-icon">🏆</div>
-                    <div class="result-title">Partie terminée !</div>
-                    
-                    <div style="margin: 30px 0;">
-                        <div style="font-size: 20px;">Ton score final</div>
-                        <div style="font-size: 64px; color: #ffd700;" id="finalScore">0</div>
-                    </div>
-
-                    <div id="finalRanking"></div>
-
-                    <div style="display: flex; gap: 10px; margin-top: 30px;">
-                        <button class="btn btn-primary" style="flex: 1;" onclick="playAgain()">
-                            🔄 Rejouer
-                        </button>
-                        <button class="btn btn-primary" style="flex: 1;" onclick="shareScore()">
-                            📤 Partager
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <h2 id="resultMessage"></h2>
+            <button onclick="continueGame()">Continuer</button>
         </div>
     </div>
 
     <script>
-        // ============================================
-        // TOUTES LES FONCTIONS QUI FONCTIONNENT
-        // ============================================
-
-        // Variables du jeu
-        let player = {
-            name: '',
-            avatar: '👤',
-            score: 0,
-            ready: false
-        };
-        
-        let selectedAvatar = '👤';
+        // Variables
+        let playerName = '';
+        let playerScore = 0;
         let hasAnswered = false;
-        let timerInterval = null;
 
-        // ============================================
-        // FONCTIONS POUR L'ÉCRAN DE CONNEXION
-        // ============================================
-
-        // Sélectionner un avatar
-        function selectAvatar(avatar) {
-            selectedAvatar = avatar;
-            
-            // Enlever la classe selected de tous les avatars
-            document.querySelectorAll('.avatar-option').forEach(el => {
-                el.classList.remove('selected');
-            });
-            
-            // Ajouter la classe selected à l'avatar cliqué
-            event.currentTarget.classList.add('selected');
-            
-            console.log('Avatar sélectionné:', avatar); // Pour vérifier que ça marche
-        }
-
-        // Rejoindre la partie
+        // Fonction pour rejoindre
         function joinGame() {
-            const name = document.getElementById('playerName').value.trim();
-            const code = document.getElementById('gameCode').value;
-
-            if (!name) {
+            playerName = document.getElementById('playerName').value;
+            let code = document.getElementById('gameCode').value;
+            
+            if (!playerName) {
                 alert('Entre ton nom !');
                 return;
             }
-
             if (code !== 'BIBLE2024') {
                 alert('Code incorrect !');
                 return;
             }
+            
+            document.getElementById('displayName').innerHTML = playerName;
+            document.getElementById('gamePlayerName').innerHTML = playerName;
+            
+            // Sauvegarder le joueur
+            let players = JSON.parse(localStorage.getItem('players')) || [];
+            if (!players.includes(playerName)) {
+                players.push(playerName);
+                localStorage.setItem('players', JSON.stringify(players));
+            }
+            
+            showScreen('waitScreen');
+        }
 
-            // Sauvegarder les infos du joueur
-            player.name = name;
-            player.avatar = selectedAvatar;
+        // Vérifier l'état du jeu
+        setInterval(function() {
+            let state = localStorage.getItem('gameState');
+            if (state) {
+                let gameState = JSON.parse(state);
+                
+                if (gameState.status === 'question' && document.getElementById('gameScreen').classList.contains('active')) {
+                    showQuestion(gameState.question);
+                }
+                if (gameState.status === 'ended') {
+                    alert('Partie terminée ! Score: ' + playerScore);
+                    showScreen('loginScreen');
+                }
+            }
+            
+            // Mettre à jour la liste des joueurs
+            let players = JSON.parse(localStorage.getItem('players')) || [];
+            let html = '<h3>Joueurs:</h3>';
+            players.forEach(p => {
+                html += '<p>' + p + (p === playerName ? ' (toi)' : '') + '</p>';
+            });
+            document.getElementById('playersList').innerHTML = html;
+        }, 1000);
 
-            // Mettre à jour les en-têtes
-            document.getElementById('headerAvatar').textContent = player.avatar;
-            document.getElementById('headerName').textContent = player.name;
-            document.getElementById('gameAvatar').textContent = player.avatar;
-            document.getElementById('gameName').textContent = player.name;
+        // Afficher question
+        function showQuestion(q) {
+            hasAnswered = false;
+            document.getElementById('questionText').innerHTML = q.text;
+            
+            let html = '';
+            for (let i = 0; i < q.options.length; i++) {
+                html += '<button class="option-btn" onclick="answer(' + (i+1) + ',' + q.correct + ')">' + 
+                        (i+1) + '. ' + q.options[i] + '</button>';
+            }
+            document.getElementById('options').innerHTML = html;
+        }
 
-            // Sauvegarder dans localStorage
-            let players = JSON.parse(localStorage.getItem('quiz_players')) || [];
-            if (!players.includes(name)) {
-                players.push(name);
-                localStorage.setItem('quiz_players', JSON.stringify(players));
- 
+        // Répondre
+        function answer(choice, correct) {
+            if (hasAnswered) return;
+            hasAnswered = true;
+            
+            let buttons = document.querySelectorAll('.option-btn');
+            
+            if (choice === correct) {
+                playerScore += 10;
+                buttons[choice-1].classList.add('correct');
+                document.getElementById('resultMessage').innerHTML = '✅ Bonne réponse! +10 points';
+            } else {
+                buttons[choice-1].classList.add('incorrect');
+                buttons[correct-1].classList.add('correct');
+                document.getElementById('resultMessage').innerHTML = '❌ Mauvaise réponse';
+            }
+            
+            document.getElementById('score').innerHTML = playerScore;
+            
+            // Sauvegarder score
+            let scores = JSON.parse(localStorage.getItem('scores')) || {};
+            scores[playerName] = playerScore;
+            localStorage.setItem('scores', JSON.stringify(scores));
+            
+            showScreen('resultScreen');
+        }
+
+        function continueGame() {
+            showScreen('gameScreen');
+        }
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+    </script>
+</body>
+</html>
